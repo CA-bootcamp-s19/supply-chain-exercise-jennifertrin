@@ -52,11 +52,11 @@ contract SupplyChain {
     event LogReceived(uint sku);
 
 /* Create a modifer that checks if the msg.sender is the owner of the contract */
-  modifier isOwner() { require(owner == msg.sender, ""); _;}
+  modifier isOwner() { require(owner == msg.sender, "Not owner!"); _;}
 
-  modifier verifyCaller (address _address) { require (msg.sender == _address); _;}
+  modifier verifyCaller (address _address) { require (msg.sender == _address, "Not verified!"); _;}
 
-  modifier paidEnough(uint _price) { require(msg.value >= _price); _;}
+  modifier paidEnough(uint _price) { require(msg.value >= _price, "Did not pay enough!"); _;}
   
   modifier checkValue(uint _sku) {
     //refund them after pay for item (why it is before, _ checks for logic before func)
@@ -117,7 +117,7 @@ contract SupplyChain {
   function buyItem(uint sku)public payable forSale(sku) paidEnough(items[sku].price) checkValue(sku)
   {
     items[sku].buyer = msg.sender;
-    items[sku].state = uint(State.Sold);
+    items[sku].state = State.Sold;
     items[sku].seller.transfer(items[sku].price);
     emit LogSold(sku);
     }
