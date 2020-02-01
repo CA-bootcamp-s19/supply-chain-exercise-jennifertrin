@@ -20,7 +20,7 @@ contract SupplyChain {
   mapping(uint => Item) public items;
 
   /* Add a line that creates an enum called State. This should have 4 states
-    
+    ForSale
     Sold
     Shipped
     Received
@@ -52,7 +52,7 @@ contract SupplyChain {
     event LogReceived(uint sku);
 
 /* Create a modifer that checks if the msg.sender is the owner of the contract */
-
+  modifier isOwner() { require(owner == msg.sender, ""); _;}
 
   modifier verifyCaller (address _address) { require (msg.sender == _address); _;}
 
@@ -126,17 +126,15 @@ contract SupplyChain {
   is the seller. Change the state of the item to shipped. Remember to call the event associated with this function!*/
   function shipItem(uint sku) public sold(sku) verifyCaller(items[sku].seller)
   {
-    items[sku].seller.transfer(items[sku].price);
-    items[sku].buyer = msg.sender;
-    items[sku].state = State.Sold;
-    emit LogSold(sku);
+    items[sku].state = State.Shipped;
+    emit LogShipped(sku);
   }
 
   /* Add 2 modifiers to check if the item is shipped already, and that the person calling this function
   is the buyer. Change the state of the item to received. Remember to call the event associated with this function!*/
   function receiveItem(uint sku) public shipped(sku) verifyCaller(items[sku].buyer)
   {
-   items[sku].state = unit(State.Received);
+   items[sku].state = State.Received;
    emit LogReceived(sku);
    }
 
