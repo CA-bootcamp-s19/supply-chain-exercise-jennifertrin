@@ -20,7 +20,7 @@ contract SupplyChain {
   mapping(uint => Item) public items;
 
   /* Add a line that creates an enum called State. This should have 4 states
-    ForSale
+    
     Sold
     Shipped
     Received
@@ -114,7 +114,7 @@ contract SupplyChain {
     if the buyer paid enough, and check the value after the function is called to make sure the buyer is
     refunded any excess ether sent. Remember to call the event associated with this function!*/
 
-  function buyItem(uint sku)public payable
+  function buyItem(uint sku)public payable forSale(sku) paidEnough(items[sku].price) checkValue(sku)
   {
     items[sku].buyer = msg.sender;
     items[sku].state = uint(State.Sold);
@@ -124,7 +124,7 @@ contract SupplyChain {
 
   /* Add 2 modifiers to check if the item is sold already, and that the person calling this function
   is the seller. Change the state of the item to shipped. Remember to call the event associated with this function!*/
-  function shipItem(uint sku) public payable
+  function shipItem(uint sku) public sold(sku) verifyCaller(items[sku].seller)
   {
     items[sku].seller.transfer(items[sku].price);
     items[sku].buyer = msg.sender;
