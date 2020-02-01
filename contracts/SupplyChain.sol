@@ -142,7 +142,7 @@ contract SupplyChain {
     verifyCaller(items[sku].buyer)
   {
    Item storage _item = items[sku];
-   items[sku].state = uint(State.Received);
+   items[sku].state = State.Received;
    emit LogReceived(sku);
    }
 
