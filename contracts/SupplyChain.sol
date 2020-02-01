@@ -9,13 +9,15 @@ pragma solidity ^0.5.0;
 contract SupplyChain {
 
   /* set owner */
-  address owner;
+  address public owner;
 
   /* Add a variable called skuCount to track the most recent sku # */
+  uint public skuCount
 
   /* Add a line that creates a public mapping that maps the SKU (a number) to an Item.
      Call this mappings items
   */
+  mapping(uint => Item) public items;
 
   /* Add a line that creates an enum called State. This should have 4 states
     ForSale
