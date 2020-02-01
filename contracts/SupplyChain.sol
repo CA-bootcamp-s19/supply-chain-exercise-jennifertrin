@@ -141,7 +141,6 @@ contract SupplyChain {
     public shipped(items[sku])
     verifyCaller(items[sku].buyer)
   {
-   Item storage _item = items[sku];
    items[sku].state = State.Received;
    emit LogReceived(sku);
    }
